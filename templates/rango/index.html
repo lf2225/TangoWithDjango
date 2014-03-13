@@ -8,7 +8,7 @@
         <h1>Rango says..hello world!</h1>
 
         {% if categories %}
-            <ul>
+               <ul>
                 {% for category in categories %}
                 <!-- Following line changed to add an HTML hyperlink -->
                 <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a></li>
@@ -18,5 +18,16 @@
             <strong>There are no categories present.</strong>
        {% endif %}
 
+
+        {% if pages %}
+            <ul>
+                {% for page in pages %}
+                <!-- Following line changed to add an HTML hyperlink -->
+                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+       {% else %}
+            <strong>There are no categories present.</strong>
+       {% endif %}
     </body>
 </html>
