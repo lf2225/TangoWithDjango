@@ -12,7 +12,7 @@ from rango.forms import CategoryForm, PageForm
 def add_page(request, category_name_url):
 	context = RequestContext(request)
 
-	category_name = decode_url(category_name_url)
+	category_name = decode(category_name_url)
 	if request.method == 'POST':
 		form = PageForm(request.POST)
 
@@ -133,7 +133,8 @@ def category(request, category_name_url):
 
 	#Create a context dict which we can pass to the templates rendering engine
 	#we start by containign the name of hte catgory passed by user
-	context_dict = {'category_name' : category_name}
+	context_dict = {'category_name' : category_name
+					'category_name_url' : category_name_url}
 
 	try:
 		#Can we find a category with a given name?
