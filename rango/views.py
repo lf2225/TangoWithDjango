@@ -4,6 +4,68 @@ from django.shortcuts import render
 from django.http import HttpResponse
 #Import the Category model
 from rango.models import Category, Page
+from rango.forms import CategoryForm, PageForm
+
+
+#make sure this class encodes and decodes the url
+#everywhere with tha cat url, its /rango/category/{category stuff }add page
+def add_page(request, category_name_url):
+	context = RequestContext(request)
+
+	category_name = decode_url(category_name_url)
+	if request.method == 'POST':
+		form = PageForm(request.POST)
+
+		if form.is_valid():
+			page = form.save(commit=False)
+
+			try:
+				cat = Category.objects.get(name=category_name)
+				page.category = cat
+			except Category.DoesNotExist:
+				return render_to_response('rango/add_category.html', {}, context)
+
+			
+			page.views=0
+			
+
+			pagave.save()
+			return category(request, category_name_url)
+		else:
+			print form.errors
+	else:
+		form = PageForm()
+
+	return render_to_response( 'rango/add_page.html',
+			{'category_name_url' : category_name_url,
+			 'category_name' : category_name, 'form':form},
+			 context) 
+
+def add_category(request):
+	#get the context form the request
+	context = RequestContext(request)
+
+
+	#A HTTP POST?
+	if request.method == 'POST':
+		form = CategoryForm(request.POST)
+
+		#have them provided with a valid form
+		if form.is_valid():
+			form.save(commit=True)
+
+			#now call the main() view
+			#the user will be shown the homepage
+			return main(request)
+		else:
+			print form.errors
+
+	else:
+		form = CategoryForm()
+
+	#bad form of form details, no from suppied
+	#render the form with error msgs if any
+	return render_to_response('rango/add_category.html', {'form':form}, context)
 
 
 def main(request):
@@ -15,6 +77,10 @@ def main(request):
     #Retrieve the top 5 only - or all if less than 5.
     #Place the list in the context_dict dictionary which will be passed to the templates engine.
     category_list = Category.objects.order_by('-likes')[:5]
+    
+    for category in category_list:
+    	category.url = encode(category.name)
+
     page_list = Page.objects.order_by('-views')[:5]
     context_dict = {'categories' : category_list,
     				'pages':page_list}
@@ -130,5 +196,5 @@ def page(request, page_name_url):
 def encode(raw_url):
 	return raw_url.replace(' ', '_')
 
-def encode(cooked_url):
+def decode(cooked_url):
 	return cooked_url.replace('_', ' ')
