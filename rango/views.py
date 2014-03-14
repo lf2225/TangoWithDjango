@@ -133,7 +133,7 @@ def category(request, category_name_url):
 
 	#Create a context dict which we can pass to the templates rendering engine
 	#we start by containign the name of hte catgory passed by user
-	context_dict = {'category_name' : category_name
+	context_dict = {'category_name' : category_name,
 					'category_name_url' : category_name_url}
 
 	try:
