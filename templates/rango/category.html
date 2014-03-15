@@ -7,7 +7,7 @@
     <body>
         <h1>{{ category_name }}</h1>
         {% if category %}
-        <li><a href="{/rango/category/<category_name_url>/add_page/">{{ page.title }}</a></li>
+        <li><a href="/rango/category/{{ category_name_url }}/add_page/">ADD PAGE NOW</a></li>
             {% if pages %}
             <ul>
                 {% for page in pages %}
