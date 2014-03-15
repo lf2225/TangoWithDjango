@@ -1,10 +1,55 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+
 #Import the Category model
-from rango.models import Category, Page
-from rango.forms import CategoryForm, PageForm
+from rango.models import Category, Page, UserProfile
+from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+
+def register(request):
+	#like before, get the request's context
+	context = RequestContext(request)
+
+	#a boolean value for telling the template whether the registration was successful
+	#set to false initially. code changes value to true when registration succeeds
+	registered = False
+
+	#if its a HTTP POST, were interested in processing form data
+	if request.method == 'POST':
+		#attempt to grab informatino from teh raw form info
+		#note that we make use of both UserForm and UserProfileForm
+		user_form = UserForm(data=request.POST)
+		profile_form = UserProfileForm(data=request.POST)
+
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+
+			profile = profile_form.save(commit=False)
+			profile.user = user
+
+			if 'picture' in request.FILES:
+				profile.pictur = request.FILES['picture']
+
+			profile.save()
+			registred = True
+
+		else:
+			print user_form.errors, profile_form.errors
+
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
+
+	return render_to_response(
+			'rango/register.html',
+			{'user_form' : user_form, 'profile_form' : profile_form, 'registered' : registered},
+			context)
+
 
 
 #make sure this class encodes and decodes the url

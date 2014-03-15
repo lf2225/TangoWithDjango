@@ -7,4 +7,5 @@ urlpatterns = patterns('',
         url(r'^thirdpage/$', views.thirdpage, name='thirdpage'),
         url(r'^add_category/$', views.add_category, name='add_category'),
         url(r'^category/(?P<category_name_url>\w+)/$', views.category, name='category'),
-        url(r'^category/(?P<category_name_url>\w+)/add_page/', views.add_page, name='add_page'),)# New!
+        url(r'^category/(?P<category_name_url>\w+)/add_page/', views.add_page, name='add_page'),
+        url(r'^register/$', views.register, name='register'),)# New!

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -19,3 +20,14 @@ class Page(models.Model):
 
 	def __unicode__(self):
 		return self.title
+class UserProfile(models.Model):
+	#links UserProfile to a user model instance
+	user = models.OneToOneField(User)
+
+	#the additional attributes we wish to include
+	website = models.URLField(blank=True)
+	picture = models.ImageField(upload_to='profile_image', blank=True)
+
+	#override the __unicode__() methods to return out something meangful
+	def __unicode__(self):
+		return self.user.username
