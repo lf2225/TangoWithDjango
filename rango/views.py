@@ -54,7 +54,7 @@ def user_login(request):
         else:
             # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            return HttpResponse("Do Not Try This.")
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
@@ -140,7 +140,7 @@ def add_page(request, category_name_url):
 			{'category_name_url' : category_name_url,
 			 'category_name' : category_name, 'form':form},
 			 context) 
-
+@login_required
 def add_category(request):
 	#get the context form the request
 	context = RequestContext(request)
@@ -212,12 +212,12 @@ def about(request):
 
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    context_dict = {'boldmessage': "I am bold font from the context"}
+    context_dict = {}
 
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-    return render_to_response('rango/index.html', context_dict, context)
+    return render_to_response('rango/about.html', context_dict, context)
 def thirdpage(request):
 	return HttpResponse("Rango doesnt say anything. Back to the main page<a href='/rango'>Main</a>")
 
