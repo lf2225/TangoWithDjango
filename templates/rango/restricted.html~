@@ -6,7 +6,7 @@
 {% block body_block %}
 
 {% if user.is_authenticated %}
-<!--<a href="/rango/restricted/">Restricted Page</a><br />
+<a href="/rango/restricted/">Restricted Page</a><br />
 <a href="/rango/logout/">Logout</a><br />
 {% else %}
 <a href="/rango/register/">Register Here</a><br />
@@ -15,5 +15,5 @@
 
 <a href="/rango/about/">About</a><br/>
 <a href="/rango/add_category/">Add a New Category</a><br />
--->
+
 {% endblock %}
