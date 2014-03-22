@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 
 {% extends 'rango/base.html' %}
 {% block title %}Main Rango Page!{% endblock %}
@@ -15,7 +14,7 @@
  			<ul>
                 {% for category in categories %}
                 <!-- Following line changed to add an HTML hyperlink -->
-                <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a><br></li>
+                <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a><br /></li>
                 {% endfor %}
             </ul>
        {% else %}
@@ -32,15 +31,15 @@
             </ul>
        {% else %}
             <strong>There are no pages present.</strong>
-      
-     <br><br><a href="/rango/add_category/">Add a New Category</a> <br>
+     <br><br><a href="/rango/add_category/">Add a New Category</a> <br />
        {% endif %}
 <!--  	<br>
        <a href="/rango/register/">Register Here</a>
-   	</br>
-   	<br>
+   	<br />
+   	
+	<br>
        <a href="/rango/sign_in/">Sign In Here</a>
-    </br>
+    <br />
  		
     <br> -->
 

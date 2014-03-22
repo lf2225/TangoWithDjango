@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sessions',
     'rango',
 )
 
@@ -56,7 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+    'django.contrib.sessions.middleware.SessionMiddleware')
 
 ROOT_URLCONF = 'tango_with_django_project.urls'
 
@@ -107,8 +108,12 @@ STATIC_PATH = os.path.join(PROJECT_PATH,'static')
 
 STATIC_URL = '/static/' # You may find this is already defined as such.
 
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
 
 SITE_ID = 1
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+

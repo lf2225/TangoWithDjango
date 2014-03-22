@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 #Import the Category model
@@ -13,7 +14,9 @@ from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
+	context_dict = {'boldmessage':"RESTRICTED.  EXIT NOW!"}
+    	context =  RequestContext(request)
+    	return render_to_response('rango/restricted.html', context_dict, context)
 
 @login_required
 def user_logout(request):
@@ -65,7 +68,11 @@ def user_login(request):
 
 
 def register(request):
-	#like before, get the request's context
+	if request.session.test_cookie_worked():
+		print ">>>> TEST COOKIE WORKED!"
+		request.session.delete_test_cookie()
+
+        #like before, get the request's context
 	context = RequestContext(request)
 
 	#a boolean value for telling the template whether the registration was successful
@@ -169,55 +176,47 @@ def add_category(request):
 
 
 def main(request):
-    # Request the context of the request.
-    # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
-    #Query the database for a list of ALL catrogires currently stored.
-    #Order the categories by number of likes in descending order.
-    #Retrieve the top 5 only - or all if less than 5.
-    #Place the list in the context_dict dictionary which will be passed to the templates engine.
-    category_list = Category.objects.order_by('-likes')[:5]
-    
+
+    category_list = Category.objects.all()
+    context_dict = {'categories': category_list}
+
     for category in category_list:
     	category.url = encode(category.name)
 
     page_list = Page.objects.order_by('-views')[:5]
-    context_dict = {'categories' : category_list,
-    				'pages':page_list}
-    #context_dict = {'boldmessage': "I am bold font from the context"}
+    context_dict['pages'] = page_list
 
+    if request.session.get('last_visit'):
+    	last_visit_time = request.session.get('last_visit')
+    	visits = request.session.get('visits', 0)
 
-    # The following two lines are new.
-    # We loop through each category returned, and create a URL attribute.
-    # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
-    #for category in category_list:
-    #    category.url = category.name.replace(' ', '_')
-
-    #for page in page_list:
-    #	page.url = page.title.replace(' ', '_')
-
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
-    #return render_to_response('rango/index.html', context_dict, context)
-
-    #Render the response and send it back!
+    	if (datetime.now() - datetime.strptime(last_visit_time[:-7], "%Y-%m-%d %H:%M:%S")).seconds > 5:
+		request.session['visits'] = visits + 1
+		request.session['last_visit'] = str(datetime.now())
+	else:
+		pass
+    else:
+	    request.session['last_visit'] = str(datetime.now())
+	    request.session['visits'] = 1
     return render_to_response('rango/index.html', context_dict, context)
 
-
 def about(request):
-	 # Request the context of the request.
+    # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
-
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
     context_dict = {}
+    # If the visits session varible exists, take it and use it.
+    # If it doesn't, we haven't visited the site so set the count to zero.
+    if request.session.get('visits'):
+	    count = request.session.get('visits')
+    else:
+	    count = 0
+    # remember to include the visit data
+    return render_to_response('rango/about.html', {'visits': count}, context)
 
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
-    return render_to_response('rango/about.html', context_dict, context)
 def thirdpage(request):
 	return HttpResponse("Rango doesnt say anything. Back to the main page<a href='/rango'>Main</a>")
 

@@ -1,19 +1,11 @@
-<!DOCTYPE html>
 
 {% extends 'rango/base.html' %}
 {% block title %}RESTRICTED!!!{% endblock %}
 
 {% block body_block %}
+<div class='restricted'>
+	<h1>RESTRICTED PAGE!!!</h1>
 
-{% if user.is_authenticated %}
-<!--<a href="/rango/restricted/">Restricted Page</a><br />
-<a href="/rango/logout/">Logout</a><br />
-{% else %}
-<a href="/rango/register/">Register Here</a><br />
-<a href="/rango/login/">Login</a><br />
-{% endif %}	
+	Since You're Logged In, You Can See This Text!
 
-<a href="/rango/about/">About</a><br/>
-<a href="/rango/add_category/">Add a New Category</a><br />
--->
 {% endblock %}
