@@ -3,6 +3,9 @@
 {% block title %}Add a Rango Category!{% endblock %}
 
 {% block body_block %}
+<div class="hero-unit">
+</br>
+<div class="container">
         <form id="category_form" method="post" action="/rango/add_category/">
 
             {% csrf_token %}
@@ -15,8 +18,9 @@
                 {{ field.help_text}}
                 {{ field }}
             {% endfor %}
-
-            <input type="submit" name="submit" value="Create Category" />
+<br />
+<button class="btn btn-primary" type="submit" name="submit">Create a Category</button>
         </form>
-        <br />
+    </div>
+</div>
 {% endblock %}

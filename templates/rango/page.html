@@ -3,6 +3,7 @@
 {% block title %}Rango Page{% endblock %}
 
 {% block body_block %}
+<div class="hero-unit">
     <body>
         <h1>{{ page_name }}</h1>
         {% if category %}
@@ -18,4 +19,5 @@
         {% else %}
             The specified category {{ page_name }} does not exist!
         {% endif %}
+</div>
 {% endblock %}

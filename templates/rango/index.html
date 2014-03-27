@@ -3,13 +3,11 @@
 {% block title %}Main Rango Page!{% endblock %}
 
 {% block body_block %}
-
-        {% if user.is_authenticated %}
-		<h1>Rango says... hello {{ user.username }}!</h1>
-		{% else %}
-		<h1>Rango says... hello world!</h1>
-		{% endif %}
-
+<div class="hero-unit">
+		<h1>Ready to Tango with Rango?!</h1>
+    <p>Find, Add, Share and Tango your files to Rango.</p>
+</div>
+<div class="span6">
         {% if categories %}
  			<ul>
                 {% for category in categories %}
@@ -20,8 +18,9 @@
        {% else %}
             <strong>There are no categories present.</strong>
        {% endif %}
+</div>
 
-
+<div class="span6">
         {% if pages %}
             <ul>
                 {% for page in pages %}
@@ -33,24 +32,18 @@
             <strong>There are no pages present.</strong>
      <br><br><a href="/rango/add_category/">Add a New Category</a> <br />
        {% endif %}
-<!--  	<br>
-       <a href="/rango/register/">Register Here</a>
-   	<br />
-   	
-	<br>
-       <a href="/rango/sign_in/">Sign In Here</a>
-    <br />
- 		
-    <br> -->
-
-    	{% if user.is_authenticated %}
-			<br><a href="/rango/restricted/">Restricted Page</a><br/x>
-			<br><a href="/rango/logout/">Logout</a><br/>
-		{% else %}
-			<br><a href="/rango/register/">Register Here for Free Trial</a><br/>
-			<br><a href="/rango/sign_in/">Sign In (Registered Users)</a><br />
-		{% endif %}
-
-<br><a href="/rango/about/">About</a><br/>
-<br><a href="/rango/add_category/">Add a New Category</a><br/>
+</div>
+<div class="span6">
+  <h2>Top Five</h2>
+  {% if page %}
+  <ul>
+  {% for page in pages %}
+  <li><a href="{{ page.url }}"></a> - {{ page.category }} ({{ page.views }}) view(s))</li>
+  {% endfor %}
+</ul>
+{% else %}
+<strong>No pages are in the Rango.</strong>
+{% endif %} 
+</div>
+</div>
 {% endblock %}

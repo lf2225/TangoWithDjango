@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
+from rango.bing_search import run_query
 
 #Import the Category model
 from rango.models import Category, Page, UserProfile
@@ -298,3 +298,15 @@ def encode(raw_url):
 
 def decode(cooked_url):
 	return cooked_url.replace('_', ' ')
+
+def search(request):
+	context = RequestContext(request)
+	result_list = []
+
+	if request.method == 'POST':
+		query = request.POST['query'].strip()
+
+		if query:
+			result_list = run_query(query)
+
+	return render_to_response('rango/search.html', {'result_list': result_list}, context)

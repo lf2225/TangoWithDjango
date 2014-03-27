@@ -2,16 +2,26 @@
 {% block title %}Sign in, you Rango!{% endblock %}
 
 {% block body_block %}
-    <body>
+<div class="hero-unit">
         <h1>Login to Rango</h1>
+<div class="container">
+    <form class="form-signin span4" id="login_form" method="post" action="/rango/sign_in/">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        
+        {% csrf_token %}
+        {% if bad_details %}
+        <p><strong>You forgot your username and/or password, are you sure that you are YOU?!</strong></p>
+        {% elif disabled_account %}
+        <p><strong>Rango is disabled; we can't log you in!</strong></p>
+        {% endif %}
 
-        <form id="login_form" method="post" action="/rango/sign_in/">
-            {% csrf_token %}
-            Username: <input type="text" name="username" value="" size="50" />
-            <br />
-            Password: <input type="password" name="password" value="" size="50" />
-            <br />
+        Username: <input type="text" class="input-block-level" placeholder="Username" name="username"value="" size="50" />
+    </br>
+        Password: <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50" />
+    </br>
+    <button class="btn btn-primary" type="submit">Sign In, You Rango!</button>
 
-            <input type="submit" value="submit" />
-        </form>
+    </form>
+</div>
+</div>
 {% endblock %}
