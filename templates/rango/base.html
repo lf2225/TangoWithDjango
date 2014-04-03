@@ -1,28 +1,11 @@
 {% load static %}
+
 <!DOCTYPE html>
 
 <html>
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span3">
-            <div class="well sidebar-nav">
-                <!--- Empty for the timebeing -->
-            </div>
-            <!--/.well -->
-        </div>
-        <!--/span-->
-        <div class="span9">
-            {% block body_block %}
-            {% endblock %}
-        </div>
-        <!--/span-->
-    </div>
-    <!--/row-->
-</div>
-<!--/.fluid-container-->
 
-        <p>&copy; Rango: How to Tango with Django 2013</p>
-    </div>
+    <!--/row-->
+
     <head>
       <meta name="viewport", content="width=device-width, initial-scale=1.0"
       <!--Bootstrap-->
@@ -32,7 +15,9 @@
       
     </head>
 
+
     <body>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
    <div class="navbar-inner">
        <div class="container">
@@ -47,11 +32,11 @@
                <ul class="nav pull-right">
                    {% if user.is_authenticated %}
                     <li class="navbar-text">Welcome, {{ user.username }}!</li>
-                    <li><a href="/rango/search/">Search with Bing</a></li>
                     <li><a href="/rango/logout/">Logout</a></li>
                    {% else %}
                     <li><a href="/rango/register/">Register</a></li>
                     <li><a href="/rango/sign_in/">Login</a></li>
+
                    {% endif %}
                </ul>
                <ul class="nav">
@@ -66,21 +51,24 @@
        </div>
    </div>
 </div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                {% if cat_list %}
+                {% include "rango/category_list.html" %}
+                {% endif %}
+            </div>
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+            {% block body_block %}
+            {% endblock %}
+        </div>
+    </div>
         <hr />
 
-        <div>
-            <ul>
-            {% if user.is_authenticated %}
-                <li><a href="/rango/restricted/">Restricted Page</a></li>
-                <li><a href="/rango/logout/">Logout</a></li>
-                <li><a href="/rango/add_category/">Add a New Category</a></li>
-                    {% else %}
-                <li><a href="/rango/register/">Register Here for Free Trial</a></li>
-                <li><a href="/rango/sign_in/">Sign In (Registered Users ONLY)</a></li>
-                <li><a href="/rango/search/">Search with Bing</a></li>
-            {% endif %}
-          </ul>
-        </div>
 	<script src="{% static 'js/jquery-2.1.0.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
     </body>

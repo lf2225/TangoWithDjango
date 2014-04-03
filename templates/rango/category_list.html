@@ -1,0 +1,6 @@
+<ul>
+                {% for category in cat_list %}
+                <!-- Following line changed to add an HTML hyperlink -->
+                <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a><br /></li>
+                {% endfor %}
+</ul>

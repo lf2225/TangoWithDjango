@@ -1,5 +1,14 @@
 import json
 import urllib, urllib2
+from sys import argv
+
+def main():
+    #print "argv = ", argv
+    search_raw = raw_input('enter your search here')
+    results = run_query(search_raw)
+    print "results = ", results
+    for result in results:
+        print result['Title'], result['Rank'], result['URL']
 
 def run_query(search_terms):
     # Specify the base
@@ -63,3 +72,5 @@ def run_query(search_terms):
 
     # Return the list of results to the calling function.
     return results
+if __name__ == '__main__':
+    main()

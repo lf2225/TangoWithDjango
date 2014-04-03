@@ -7,10 +7,12 @@
 		<h1>Ready to Tango with Rango?!</h1>
     <p>Find, Add, Share and Tango your files to Rango.</p>
 </div>
+<div class = 'row-fluid'>
 <div class="span6">
-        {% if categories %}
+    <h2>Top Five Categories</h2>
+        {% if cat_list %}
  			<ul>
-                {% for category in categories %}
+                {% for category in cat_list %}
                 <!-- Following line changed to add an HTML hyperlink -->
                 <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a><br /></li>
                 {% endfor %}
@@ -21,7 +23,9 @@
 </div>
 
 <div class="span6">
-        {% if pages %}
+
+  <h2>Top Five Pages</h2>
+          {% if pages %}
             <ul>
                 {% for page in pages %}
                 <!-- Following line changed to add an HTML hyperlink -->
@@ -32,18 +36,5 @@
             <strong>There are no pages present.</strong>
      <br><br><a href="/rango/add_category/">Add a New Category</a> <br />
        {% endif %}
-</div>
-<div class="span6">
-  <h2>Top Five</h2>
-  {% if page %}
-  <ul>
-  {% for page in pages %}
-  <li><a href="{{ page.url }}"></a> - {{ page.category }} ({{ page.views }}) view(s))</li>
-  {% endfor %}
-</ul>
-{% else %}
-<strong>No pages are in the Rango.</strong>
-{% endif %} 
-</div>
-</div>
+</div></div>
 {% endblock %}
